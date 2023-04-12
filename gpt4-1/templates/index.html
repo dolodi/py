@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <style>
+            @import "https://fonts.googleapis.com/css2?family=Gloock&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&display=swap";</style>
+        <style>
+            @import "https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap";</style>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+    <style>
+
+pre, code {
+      font-family: "Courier New", monospace;
+      background-color: #f4f4f4;
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    pre {
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+
+    code {
+      color: rgb(0, 0, 0);
+      font-size: 110%;
+      font-weight: bold;
+    }
+      </style>
+</head>
+<body>
+    
+    
+
+        
+    <form id="user-input-form">
+        <input type="text" id="user-input" name="message" placeholder="Type your message...">
+        <button class="active:scale-95 justify-center rounded transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 dark:hover:bg-slate-800 dark:hover:text-slate-100 disabled:opacity-50 dark:focus:ring-slate-400 disabled:pointer-events-none dark:focus:ring-offset-slate-900 data-[state=open]:bg-slate-100 dark:data-[state=open]:bg-slate-800 text-white dark:bg-slate-50 dark:text-slate-900 h-8 px-3 bg-emerald-500 hover:bg-emerald-700 inline-flex items-center text-sm font-medium text-center" type="submit" value="submit" data-state="closed">Submit</button>
+    </form>
+
+    <div class="flex flex-grow flex-col font-display min-h-0 min-w-0 md:ml-5 sm:ml-0"><div class="flex flex-row space-x-4 flex-grow sm:mr-0 md:mr-5 min-h-0 min-w-0"><form class="flex flex-col grow basis-auto lg:max-w-[calc(100%-266px)]"><div id="editor" class="overflow-y-auto editor-container h-full w-full py-3 px-3 border-b-[1px] sm:p text-base md:rounded md:border border-slate-300"><div class="DraftEditor-root"><div class="DraftEditor-editorContainer"><div class="notranslate public-DraftEditor-content" contenteditable="true" role="textbox" spellcheck="false" style="outline: none; user-select: text; white-space: pre-wrap; overflow-wrap: break-word;"><div data-contents="true"><div class="" data-block="true" data-editor="bovrv" data-offset-key="de75i-0-0"><div data-offset-key="de75i-0-0" id="chat-box" class="public-DraftStyleDefault-block public-DraftStyleDefault-ltr"><span data-offset-key="de75i-0-0"><br data-text="true"></span></div></div></div></div></div></div></div><div class="flex space-x-2 my-2 justify-center md:justify-start">
+        
+        <button class="active:scale-95 justify-center rounded transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 dark:hover:bg-slate-800 dark:hover:text-slate-100 disabled:opacity-50 dark:focus:ring-slate-400 disabled:pointer-events-none dark:focus:ring-offset-slate-900 data-[state=open]:bg-slate-100 dark:data-[state=open]:bg-slate-800 text-white dark:bg-slate-50 dark:text-slate-900 h-8 px-3 bg-emerald-500 hover:bg-emerald-700 inline-flex items-center text-sm font-medium text-center" type="submit" value="submit" data-state="closed">Submit</button>
+        <div data-state="closed">
+    
+        <button class="active:scale-95 justify-center rounded transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 dark:hover:bg-slate-800 dark:hover:text-slate-100 disabled:opacity-50 dark:focus:ring-slate-400 disabled:pointer-events-none dark:focus:ring-offset-slate-900 data-[state=open]:bg-slate-100 dark:data-[state=open]:bg-slate-800 bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-100 h-8 px-3 inline-flex items-center text-sm font-medium text-center" type="button">Undo</button>
+    </div><div data-state="closed"><button class="active:scale-95 justify-center rounded transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 dark:hover:bg-slate-800 dark:hover:text-slate-100 disabled:opacity-50 dark:focus:ring-slate-400 disabled:pointer-events-none dark:focus:ring-offset-slate-900 data-[state=open]:bg-slate-100 dark:data-[state=open]:bg-slate-800 bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-100 h-8 px-3 inline-flex items-center text-sm font-medium text-center" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M3 2v6h6"></path><path d="M21 12A9 9 0 0 0 6 5.3L3 8"></path><path d="M21 22v-6h-6"></path><path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"></path></svg></button></div><div data-state="closed"><button class="active:scale-95 justify-center rounded transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 dark:hover:bg-slate-800 dark:hover:text-slate-100 disabled:opacity-50 dark:focus:ring-slate-400 disabled:pointer-events-none dark:focus:ring-offset-slate-900 data-[state=open]:bg-slate-100 dark:data-[state=open]:bg-slate-800 bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-100 h-8 px-3 inline-flex items-center py-2.5 text-sm font-medium text-center" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg></button></div><button class="active:scale-95 justify-center rounded transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 dark:hover:bg-slate-800 dark:hover:text-slate-100 disabled:opacity-50 dark:focus:ring-slate-400 disabled:pointer-events-none dark:focus:ring-offset-slate-900 data-[state=open]:bg-slate-100 dark:data-[state=open]:bg-slate-800 bg-slate-100 text-slate-900 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-100 h-8 px-3 items-center py-2.5 text-sm font-medium text-center hidden lg:inline-flex" type="button" data-state="closed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M3 3v5h5"></path><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"></path><path d="M12 7v5l4 2"></path></svg></button></div><input type="text" style="display: none;"></form><div class="hidden p-1 grow-0 shrink-0 basis-auto lg:w-[250px] overflow-auto lg:block"><div class="flex flex-col max-h-[100%] mx-4 pt-4 sm:pt-4 md:pt-0 lg:pt-0"><div class="mb-2"><div class=""><div class="mb-2"><span class="flow-root inline-block align-middle"><p class="text-sm font-medium float-left align-text-top">Model</p></span><button type="button" role="combobox" aria-controls="radix-:rq:" aria-expanded="false" aria-autocomplete="none" dir="ltr" data-state="closed" class="flex h-10 items-center justify-between rounded-sm border border-slate-400 bg-transparent py-2 px-3 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900 w-full"><span style="pointer-events: none;">gpt-4</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 opacity-50">
+        
+        
+        
+        <polyline points="6 9 12 15 18 9"></polyline></svg></button></div></div></div><div class="flex flex-col gap-y-3"><div class=""><div data-state="closed"><span class="cursor-default flow-root inline-block align-middle mb-3"><p class="text-sm font-normal float-left align-text-top ">Maximum Length</p>
+        
+        
+        <input class="border border-slate-50 text-right bg-transparent text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900 float-right h-6 p-0 w-14" inputmode="decimal" type="number" step="1" min="1" max="4000" lang="en-150" value="200"></span><span dir="ltr" data-orientation="horizontal" aria-disabled="false" class="relative flex w-full touch-none select-none items-center" style="--radix-slider-thumb-transform:translateX(-50%);"><span data-orientation="horizontal" class="relative h-1 w-full grow overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"><span data-orientation="horizontal" class="absolute h-full bg-slate-600  dark:bg-slate-800 ease-in duration-500" style="left: 0%; right: 95.0238%;"></span></span><span style="transform: var(--radix-slider-thumb-transform); position: absolute; left: calc(4.97624% + 0px);" class="ease-in duration-500"><span role="slider" aria-valuemin="1" aria-valuemax="4000" aria-orientation="horizontal" data-orientation="horizontal" tabindex="0" class="block h-4 w-4 rounded-full border-2 border-slate-800 bg-white transition-colors focus:outline-none focus:ring-1 focus:ring-slate-400 disabled:pointer-events-none disabled:bg-slate-200  disabled:opacity-50 dark:border-slate-100 dark:bg-slate-400 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900 cursor-grab ease-in duration-500 disabled:cursor-default" data-radix-collection-item="" style="" aria-valuenow="200"></span></span></span></div></div><div class=""><div data-state="closed"><span class="cursor-default flow-root inline-block align-middle mb-3"><p class="text-sm font-normal float-left align-text-top ">Temperature</p><input class="border border-slate-50 text-right bg-transparent text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900 float-right h-6 p-0 w-14" inputmode="decimal" type="number" step="0.01" min="0.1" max="1" lang="en-150" value="0.5"></span><span dir="ltr" data-orientation="horizontal" aria-disabled="false" class="relative flex w-full touch-none select-none items-center" style="--radix-slider-thumb-transform:translateX(-50%);"><span data-orientation="horizontal" class="relative h-1 w-full grow overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"><span data-orientation="horizontal" class="absolute h-full bg-slate-600  dark:bg-slate-800 ease-in duration-500" style="left: 0%; right: 55.5556%;"></span></span><span style="transform: var(--radix-slider-thumb-transform); position: absolute; left: calc(44.4444% + 0px);" class="ease-in duration-500"><span role="slider" aria-valuemin="0.1" aria-valuemax="1" aria-orientation="horizontal" data-orientation="horizontal" tabindex="0" class="block h-4 w-4 rounded-full border-2 border-slate-800 bg-white transition-colors focus:outline-none focus:ring-1 focus:ring-slate-400 disabled:pointer-events-none disabled:bg-slate-200  disabled:opacity-50 dark:border-slate-100 dark:bg-slate-400 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900 cursor-grab ease-in duration-500 disabled:cursor-default" data-radix-collection-item="" style="" aria-valuenow="0.5"></span></span></span></div></div><div class=""><div data-state="closed"><span class="cursor-default flow-root inline-block align-middle mb-3"><p class="text-sm font-normal float-left align-text-top ">Top P</p><input class="border border-slate-50 text-right bg-transparent text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900 float-right h-6 p-0 w-14" inputmode="decimal" type="number" step="0.01" min="0.1" max="1" lang="en-150" value="1"></span><span dir="ltr" data-orientation="horizontal" aria-disabled="false" class="relative flex w-full touch-none select-none items-center" style="--radix-slider-thumb-transform:translateX(-50%);"><span data-orientation="horizontal" class="relative h-1 w-full grow overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"><span data-orientation="horizontal" class="absolute h-full bg-slate-600  dark:bg-slate-800 ease-in duration-500" style="left: 0%; right: 0%;"></span></span><span style="transform: var(--radix-slider-thumb-transform); position: absolute; left: calc(100% + 0px);" class="ease-in duration-500"><span role="slider" aria-valuemin="0.1" aria-valuemax="1" aria-orientation="horizontal" data-orientation="horizontal" tabindex="0" class="block h-4 w-4 rounded-full border-2 border-slate-800 bg-white transition-colors focus:outline-none focus:ring-1 focus:ring-slate-400 disabled:pointer-events-none disabled:bg-slate-200  disabled:opacity-50 dark:border-slate-100 dark:bg-slate-400 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900 cursor-grab ease-in duration-500 disabled:cursor-default" data-radix-collection-item="" style="" aria-valuenow="1"></span></span></span></div></div><div class=""><div data-state="closed"><span class="cursor-default flow-root inline-block align-middle mb-3"><p class="text-sm font-normal float-left align-text-top ">Frequency Penalty</p><input class="border border-slate-50 text-right bg-transparent text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900 float-right h-6 p-0 w-14" inputmode="decimal" type="number" step="0.01" min="0" max="1" lang="en-150" value="1"></span><span dir="ltr" data-orientation="horizontal" aria-disabled="false" class="relative flex w-full touch-none select-none items-center" style="--radix-slider-thumb-transform:translateX(-50%);"><span data-orientation="horizontal" class="relative h-1 w-full grow overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"><span data-orientation="horizontal" class="absolute h-full bg-slate-600  dark:bg-slate-800 ease-in duration-500" style="left: 0%; right: 0%;"></span></span><span style="transform: var(--radix-slider-thumb-transform); position: absolute; left: calc(100% + 0px);" class="ease-in duration-500"><span role="slider" aria-valuemin="0" aria-valuemax="1" aria-orientation="horizontal" data-orientation="horizontal" tabindex="0" class="block h-4 w-4 rounded-full border-2 border-slate-800 bg-white transition-colors focus:outline-none focus:ring-1 focus:ring-slate-400 disabled:pointer-events-none disabled:bg-slate-200  disabled:opacity-50 dark:border-slate-100 dark:bg-slate-400 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900 cursor-grab ease-in duration-500 disabled:cursor-default" data-radix-collection-item="" style="" aria-valuenow="1"></span></span></span></div></div><div class=""><div data-state="closed"><span class="cursor-default flow-root inline-block align-middle mb-3"><p class="text-sm font-normal float-left align-text-top ">Presence Penalty</p><input class="border border-slate-50 text-right bg-transparent text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900 float-right h-6 p-0 w-14" inputmode="decimal" type="number" step="0.01" min="0" max="1" lang="en-150" value="1"></span><span dir="ltr" data-orientation="horizontal" aria-disabled="false" class="relative flex w-full touch-none select-none items-center" style="--radix-slider-thumb-transform:translateX(-50%);"><span data-orientation="horizontal" class="relative h-1 w-full grow overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"><span data-orientation="horizontal" class="absolute h-full bg-slate-600  dark:bg-slate-800 ease-in duration-500" style="left: 0%; right: 0%;"></span></span><span style="transform: var(--radix-slider-thumb-transform); position: absolute; left: calc(100% + 0px);" class="ease-in duration-500"><span role="slider" aria-valuemin="0" aria-valuemax="1" aria-orientation="horizontal" data-orientation="horizontal" tabindex="0" class="block h-4 w-4 rounded-full border-2 border-slate-800 bg-white transition-colors focus:outline-none focus:ring-1 focus:ring-slate-400 disabled:pointer-events-none disabled:bg-slate-200  disabled:opacity-50 dark:border-slate-100 dark:bg-slate-400 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900 cursor-grab ease-in duration-500 disabled:cursor-default" data-radix-collection-item="" style="" aria-valuenow="1"></span></span></span></div></div><div><div data-state="closed"><span class="cursor-default flow-root inline-block align-middle mb-1"><p class="text-sm font-normal float-left align-text-top">Stop Sequences</p></span><span class="cursor-default flow-root inline-block align-middle mb-3"><p class="text-xs font-normal float-left align-text-top text-gray-400">Enter sequence and press Tab</p></span><div class=" css-b62m3t-container"><span id="react-select-2-live-region" class="css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false" aria-relevant="additions text" class="css-7pg0cj-a11yText"></span><div class=" css-13cymwt-control"><div class=" css-hlgwow"><div class=" css-1jqq78o-placeholder" id="react-select-2-placeholder"></div><div class=" css-19bb58m" data-value=""><input class="" autocapitalize="none" autocomplete="off" autocorrect="off" id="react-select-2-input" spellcheck="false" tabindex="0" type="text" aria-autocomplete="list" aria-expanded="false" aria-haspopup="true" role="combobox" aria-describedby="react-select-2-placeholder" value="" style="color: inherit; background: 0px center; opacity: 1; width: 100%; grid-area: 1 / 2 / auto / auto; font: inherit; min-width: 2px; border: 0px; margin: 0px; outline: 0px; padding: 0px;"></div></div><div class=" css-1wy0on6"></div></div></div></div></div><div class="cursor-default flex justify-between align-middle inline-block align-middle mb-1" data-state="closed"><p class="text-sm font-normal float-left align-text-top">Show Probabilities</p><button type="button" role="checkbox" aria-checked="false" data-state="unchecked" value="on" class="peer h-4 w-4 shrink-0 rounded-sm border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900 float-right self-center"></button></div><div class="cursor-default flex justify-between align-middle inline-block align-middle mb-1" data-state="closed"><p class="text-sm font-normal float-left align-text-top">Highlight Models</p><button type="button" role="checkbox" aria-checked="true" data-state="checked" value="on" class="peer h-4 w-4 shrink-0 rounded-sm border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900 float-right self-center"><span data-state="checked" class="flex items-center justify-center" style="pointer-events: none;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><polyline points="20 6 9 17 4 12"></polyline></svg></span></button></div></div></div></div></div></div>
+
+    
+    <script>
+        const socket = io();
+        let gpt_response = '';
+        let i=0;
+    
+        function disableInput() {
+            $('#user-input').prop('disabled', true);
+            $('#send-button').prop('disabled', true);
+        }
+    
+        function enableInput() {
+            $('#user-input').prop('disabled', false);
+            $('#send-button').prop('disabled', false);
+        }
+
+        function escapeHtml(unsafe) {
+            return unsafe
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/'/g, "&#039;")
+              
+        }
+
+        function formatCodeBlocks(response) {
+            const formattedResponse = response.replace(/```([\s\S]*?)```/g, function (match, code) {
+            return '<pre><code>' + code + '</code></pre>';
+            });
+        return formattedResponse;
+        }
+
+        function formatLink(response) {
+            const formattedLinks = response.replace(/`([\s\S]*?)`/g, function (match, code) {
+            return '<a target="_blank" href="'+code+'">' + code + '</a>';
+            });
+        return formattedLinks;
+        }
+
+        function formatMessage(message) {
+            return message.replace(/\n/g, '<br>');
+        }
+
+
+    
+        $(document).ready(function() {
+            $('#user-input-form').on('submit', function(e) {
+                e.preventDefault();
+                const userInput = $('#user-input');
+                const message = userInput.val().trim();
+    
+                if (!message) {
+                    return;
+                }
+    
+                $('#chat-box').append(`<span class="user-message" data-offset-key="de75i-0-0"><span data-text="true">${formatMessage(escapeHtml(message))}</span></span><br>`);
+                userInput.val('');
+                $('#loading-spinner').show();
+    
+                disableInput();
+                socket.emit("send_message", message);
+            });
+    
+            socket.on("gpt_response_chunk", function(chunk) {
+                gpt_response += chunk;
+                // Update the last AI message with the latest content
+                if(i>0){
+                    $('#chat-box br:last-child').remove();
+                    $('#chat-box span.ai-message:last-child').remove();
+                }
+                i=i+1;
+                $('#chat-box').append(`<span class="ai-message" data-offset-key="de75i-1-0" style="transition: background-color 0.2s ease-in-out 0s; background-color: rgb(185, 238, 188); padding: 2px 0px;"><span data-text="true">${formatLink(formatCodeBlocks(formatMessage(escapeHtml(gpt_response))))}</span></span><br>`);
+            });
+    
+            socket.on("gpt_response_complete", function() {
+                enableInput();
+                i=0;
+                gpt_response = '';  // Clear the gpt_response variable for the next message
+            });
+        });
+
+    </script>
+</body>
+</html>
+
